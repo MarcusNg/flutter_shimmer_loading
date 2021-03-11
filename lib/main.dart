@@ -9,7 +9,7 @@ void main() {
 
 class FakeRepository {
   Future<List<Food>> mockRequest() async =>
-      await Future.delayed(const Duration(seconds: 2), () => foodData);
+      await Future.delayed(const Duration(seconds: 5), () => foodData);
 }
 
 class MyApp extends StatelessWidget {
@@ -42,8 +42,23 @@ class HomeScreen extends StatelessWidget {
               ],
             );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
+          return CustomScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: FoodPageView(
+                  foodItems: [],
+                  isLoading: true,
+                ),
+              ),
+              const SliverToBoxAdapter(
+                child: Divider(indent: 12.0, endIndent: 12.0),
+              ),
+              FoodListView(
+                foodItems: [],
+                isLoading: true,
+              ),
+            ],
           );
         },
       ),
